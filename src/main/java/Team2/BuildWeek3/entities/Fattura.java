@@ -20,7 +20,9 @@ public class Fattura {
     private long numeroFattura;
     private double importoFattura;
     private String statoFattura;
-    private Cliente idCliente;
+    @ManyToOne
+    @JoinColumn(name = "cliente_id", referencedColumnName = "id")
+    private Cliente cliente;
 
 
     public Fattura(LocalDate dataFattura, long numeroFattura, double importoFattura, String statoFattura, Cliente idCliente) {
@@ -28,6 +30,6 @@ public class Fattura {
         this.numeroFattura = numeroFattura;
         this.importoFattura = importoFattura;
         this.statoFattura = statoFattura;
-        this.idCliente = idCliente;
+        this.cliente = idCliente;
     }
 }
