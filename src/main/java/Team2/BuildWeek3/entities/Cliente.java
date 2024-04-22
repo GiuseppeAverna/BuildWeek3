@@ -2,11 +2,13 @@ package Team2.BuildWeek3.entities;
 
 
 import Team2.BuildWeek3.entities.enums.TipoCliente;
+
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.Date;
+import java.util.List;
+
 
 @Entity
 @Table(name = "clienti")
@@ -33,11 +35,13 @@ public class Cliente {
     private String logoAziendale;
     private TipoCliente tipoCliente;
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "indirizzo_id", referencedColumnName = "id")
+    @JoinColumn(name = "sedeOperativa_id")
     private Indirizzo sedeOperativa;
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "indirizzo_id", referencedColumnName = "id")
+    @JoinColumn(name = "sedeLegale_id")
     private Indirizzo sedeLegale;
+    @OneToMany(mappedBy = "cliente")
+    private List<Fattura> fatture;
 
 
 
@@ -55,7 +59,8 @@ public class Cliente {
                    String logoAziendale,
                    TipoCliente tipoCliente,
                    Indirizzo sedeLegale,
-                   Indirizzo sedeOperativa) {
+                   Indirizzo sedeOperativa,
+                   List<Fattura> fatture) {
         this.ragioneSociale = ragioneSociale;
         this.partitaIva = partitaIva;
         this.email = email;
@@ -72,5 +77,6 @@ public class Cliente {
         this.tipoCliente = tipoCliente;
         this.sedeLegale = sedeLegale;
         this.sedeOperativa = sedeOperativa;
+        this.fatture = fatture;
     }
 }
