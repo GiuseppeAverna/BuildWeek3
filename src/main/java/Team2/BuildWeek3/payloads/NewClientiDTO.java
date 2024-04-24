@@ -20,20 +20,26 @@ public record NewClientiDTO(
         String email,
         @NotEmpty(message = "La data di inserimento è obbligatoria")
         LocalDate dataInserimento,
-
+        @NotEmpty(message = "La data ultimo contatto è obbligatoria")
         LocalDate dataUltimoContatto,
         @Email
         String pec,
         @NotEmpty(message = "Un numero di telefono è obbligatorio")
         long telefono,
-        
+        @Email
         String emailContatto,
+
         String nomeContatto,
+
         String cognomeContatto,
+
         long telefonoContatto,
         String logoAziendale,
+        @NotEmpty(message = "il tipo di cliente è obbligatorio")
         TipoCliente tipoCliente,
+        @NotEmpty(message = "L'indirizzo della sede operativa è obbligatorio")
         Indirizzo sedeOperativa,
+        @NotEmpty(message = "L'indirizzo della sede legale è obbligatorio")
         Indirizzo sedeLegale) {
 
 }
