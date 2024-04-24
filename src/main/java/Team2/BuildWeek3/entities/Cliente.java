@@ -2,9 +2,11 @@ package Team2.BuildWeek3.entities;
 
 
 import Team2.BuildWeek3.entities.enums.TipoCliente;
-
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -24,13 +26,12 @@ public class Cliente {
     private String partitaIva;
     private String email;
     private LocalDate dataInserimento;
-   private  LocalDate dataUltimoContatto;
-    private double fattutratoAnnuale;
+    private LocalDate dataUltimoContatto;
     private String pec;
     private long telefono;
     private String emailContatto;
     private String nomeContatto;
-   private  String cognomeContatto;
+    private String cognomeContatto;
     private long telefonoContatto;
     private String logoAziendale;
     private TipoCliente tipoCliente;
@@ -44,14 +45,13 @@ public class Cliente {
     private List<Fattura> fatture;
 
 
-
     public Cliente(String ragioneSociale,
                    String partitaIva,
                    String email,
                    LocalDate dataInserimento,
                    LocalDate dataUltimoContatto,
-                   double fattutratoAnnuale,
-                   String pec, long telefono,
+                   String pec, 
+                   long telefono,
                    String emailContatto,
                    String nomeContatto,
                    String cognomeContatto,
@@ -59,14 +59,12 @@ public class Cliente {
                    String logoAziendale,
                    TipoCliente tipoCliente,
                    Indirizzo sedeLegale,
-                   Indirizzo sedeOperativa,
-                   List<Fattura> fatture) {
+                   Indirizzo sedeOperativa) {
         this.ragioneSociale = ragioneSociale;
         this.partitaIva = partitaIva;
         this.email = email;
         this.dataInserimento = dataInserimento;
         this.dataUltimoContatto = dataUltimoContatto;
-        this.fattutratoAnnuale = fattutratoAnnuale;
         this.pec = pec;
         this.telefono = telefono;
         this.emailContatto = emailContatto;
@@ -77,6 +75,5 @@ public class Cliente {
         this.tipoCliente = tipoCliente;
         this.sedeLegale = sedeLegale;
         this.sedeOperativa = sedeOperativa;
-        this.fatture = fatture;
     }
 }
