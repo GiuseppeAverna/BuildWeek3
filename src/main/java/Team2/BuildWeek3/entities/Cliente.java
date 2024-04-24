@@ -28,12 +28,13 @@ public class Cliente {
     private LocalDate dataInserimento;
     private LocalDate dataUltimoContatto;
     private String pec;
-    private long telefono;
+    private String telefono;
     private String emailContatto;
     private String nomeContatto;
     private String cognomeContatto;
-    private long telefonoContatto;
+    private String telefonoContatto;
     private String logoAziendale;
+    @Enumerated(EnumType.STRING)
     private TipoCliente tipoCliente;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "sedeOperativa_id")
@@ -50,12 +51,12 @@ public class Cliente {
                    String email,
                    LocalDate dataInserimento,
                    LocalDate dataUltimoContatto,
-                   String pec, 
-                   long telefono,
+                   String pec,
+                   String telefono,
                    String emailContatto,
                    String nomeContatto,
                    String cognomeContatto,
-                   long telefonoContatto,
+                   String telefonoContatto,
                    String logoAziendale,
                    TipoCliente tipoCliente,
                    Indirizzo sedeLegale,

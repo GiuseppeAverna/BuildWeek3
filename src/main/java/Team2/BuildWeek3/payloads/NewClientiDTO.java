@@ -1,9 +1,10 @@
 package Team2.BuildWeek3.payloads;
 
-import Team2.BuildWeek3.entities.Indirizzo;
 import Team2.BuildWeek3.entities.enums.TipoCliente;
+import Team2.BuildWeek3.exception.BadRequestException;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
@@ -18,28 +19,39 @@ public record NewClientiDTO(
         @Email
         @NotEmpty(message = "L'email è obbligatoria")
         String email,
-        @NotEmpty(message = "La data di inserimento è obbligatoria")
+        @NotNull(message = "La data di inserimento è obbligatoria")
         LocalDate dataInserimento,
-        @NotEmpty(message = "La data ultimo contatto è obbligatoria")
+        @NotNull(message = "La data ultimo contatto è obbligatoria")
         LocalDate dataUltimoContatto,
         @Email
         String pec,
         @NotEmpty(message = "Un numero di telefono è obbligatorio")
-        long telefono,
+        @Size(min = 9, max = 10)
+        String telefono,
         @Email
         String emailContatto,
 
+        @NotEmpty(message = "Il nome del contatto è obbligatorio")
         String nomeContatto,
-
+        @NotEmpty(message = "Il cognome del contatto è obbligatorio")
         String cognomeContatto,
-
-        long telefonoContatto,
+        @NotEmpty(message = "Un numero di telefono è obbligatorio")
+        @Size(min = 9, max = 10)
+        String telefonoContatto,
         String logoAziendale,
         @NotEmpty(message = "il tipo di cliente è obbligatorio")
-        TipoCliente tipoCliente,
+        String tipoCliente,
         @NotEmpty(message = "L'indirizzo della sede operativa è obbligatorio")
-        Indirizzo sedeOperativa,
+        long sedeOperativa,
         @NotEmpty(message = "L'indirizzo della sede legale è obbligatorio")
-        Indirizzo sedeLegale) {
+        long sedeLegale) {
+    public TipoCliente getRoleEnum() {
+        String tipoClienteUpperCase = tipoCliente.toUpperCase();
+        if ("SPA".equals(tipoClienteUpperCase) || "PA".equals(tipoClienteUpperCase) || "SAS".equals(tipoClienteUpperCase) || "SRL".equals(tipoClienteUpperCase)) {
+            return TipoCliente.valueOf(tipoClienteUpperCase);
+        } else {
+            throw new BadRequestException("Tipo cliente non valido: " + tipoCliente);
+        }
 
+    }
 }
