@@ -10,13 +10,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthService {
     @Autowired
-    private UtentiService usersService;
+    private UtentiService utentiService;
     @Autowired
     private JWTools jwtTools;
 
     public String authenticateUserAndGenerateToken(UserLoginDTO payload){
 
-        Utente utente = this.usersService.findByEmail(payload.email());
+        Utente utente = this.utentiService.findByEmail(payload.email());
         if(utente.getPassword().equals(payload.password())) {
             return jwtTools.createToken(utente);
         } else {

@@ -1,7 +1,6 @@
 package Team2.BuildWeek3.services;
 
-import java.io.IOException;
-import java.util.UUID;
+import java.util.Optional;
 
 import Team2.BuildWeek3.entities.Utente;
 import Team2.BuildWeek3.exception.BadRequestException;
@@ -31,7 +30,7 @@ public class UtentiService {
     public Utente save(NewUtentiDTO body){
         this.utentiDAO.findByEmail(body.email()).ifPresent(
                 user -> {
-                    throw new BadRequestException("L'email " + user.getEmail() + " è già in uso!");
+                    throw new BadRequestException("L'email " + body.email() + " è già in uso!");
                 }
         );
         Utente newUtente = new Utente(body.username(),body.nome(), body.cognome(), body.email(), body.password(),body.ruolo(),
@@ -40,23 +39,28 @@ public class UtentiService {
         return UtentiDAO.save(newUtente);
     }
 
-    public Utente findById(UUID userId){
+    public Utente findById(long userId){
         return this.utentiDAO.findById(userId).orElseThrow(() -> new NotFoundException(userId));
     }
 
-    public Utente findByIdAndUpdate(UUID userId, Utente modifiedUser){
+    public Utente findByIdAndUpdate(long userId, Utente modifiedUser){
         Utente found = this.findById(userId);
+        found.setUsername(modifiedUser.getUsername());
         found.setName(modifiedUser.getName());
         found.setSurname(modifiedUser.getSurname());
         found.setEmail(modifiedUser.getEmail());
         found.setPassword(modifiedUser.getPassword());
-        found.setAvatarURL("https://ui-avatars.com/api/?name="+ modifiedUser.getName() + "+" + modifiedUser.getSurname());
+        found.setAvatarURL("https://ui-avatars.com/api/?name="+ modifiedUser.getName() + "+" + modifiedUser.getSurname())
+        found.setRuolo(modifiedUser.getRuolo());;
         return this.utentiDAO.save(found);
     }
 
-    public void findByIdAndDelete(UUID userId){
+    public void findByIdAndDelete(long userId){
         Utente found = this.findById(userId);
         this.utentiDAO.delete(found);
     }
 
+    public Optional<Utente> findByEmail(String email) {
+        return this.utentiDAO.findByEmail(email);
+    }
 }
