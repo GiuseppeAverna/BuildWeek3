@@ -1,5 +1,6 @@
 package Team2.BuildWeek3.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,7 @@ public class Indirizzo {
     private String località;
     private int cap;
     @OneToOne(mappedBy = "indirizzo")
+    @JsonIgnore
     private Comune comune;
     @OneToOne(mappedBy = "sedeOperativa")
     private Cliente sedeOperativa;

@@ -7,4 +7,6 @@ import java.util.Optional;
 
 public interface ComuneDAO extends JpaRepository <Comune, Long> {
     Optional<Comune> findByNome(String nome);
+
+
 }
