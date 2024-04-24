@@ -1,6 +1,7 @@
 package Team2.BuildWeek3.services;
 
 import Team2.BuildWeek3.entities.Comune;
+import Team2.BuildWeek3.exception.NotFoundException;
 import Team2.BuildWeek3.repositories.ComuneDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,7 @@ public class ComuniService {
     }
 
     public Comune getComuneById(Long id) {
-        return comuneDAO.findById(id).orElse(null);
+        return comuneDAO.findById(id).orElseThrow(() -> new NotFoundException(id));
     }
 
     public Comune saveOrUpdateComune(Comune comune) {

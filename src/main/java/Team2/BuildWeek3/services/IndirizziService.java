@@ -1,6 +1,7 @@
 package Team2.BuildWeek3.services;
 
 import Team2.BuildWeek3.entities.Indirizzo;
+import Team2.BuildWeek3.exception.NotFoundException;
 import Team2.BuildWeek3.repositories.IndirizzoDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -16,7 +17,7 @@ public class IndirizziService {
     }
 
     public Indirizzo getIndirizzoById(Long id) {
-        return indirizzoDAO.findById(id).orElse(null);
+        return indirizzoDAO.findById(id).orElseThrow(() -> new NotFoundException(id));
     }
 
     public Indirizzo saveOrUpdateIndirizzo(Indirizzo indirizzo) {
