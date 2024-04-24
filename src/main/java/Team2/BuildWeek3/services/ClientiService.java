@@ -41,7 +41,7 @@ public class ClientiService {
 
     public Cliente findByIdAndUpdateSedeLegale(Long clienteId, Long indirizzoId) {
         Cliente found = this.findById(clienteId);
-        Indirizzo indirizzo = this.indirizziService.findById(indirizzoId).orElseThrow(() -> new NotFoundException(indirizzoId));
+        Indirizzo indirizzo = this.indirizziService.findById(indirizzoId);
         found.setSedeLegale(indirizzo);
         indirizzo.setSedeLegale(found);
         this.clientiDAO.save(found);
@@ -51,7 +51,7 @@ public class ClientiService {
 
     public Cliente findByIdAndUpdateSedeOperativa(Long clienteId, Long indirizzoId) {
         Cliente found = this.findById(clienteId);
-        Indirizzo indirizzo = this.indirizziService.findById(indirizzoId).orElseThrow(() -> new NotFoundException(indirizzoId));
+        Indirizzo indirizzo = this.indirizziService.findById(indirizzoId);
         found.setSedeOperativa(indirizzo);
         indirizzo.setSedeOperativa(found);
         this.clientiDAO.save(found);
