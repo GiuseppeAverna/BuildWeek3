@@ -6,7 +6,6 @@ import Team2.BuildWeek3.exception.BadRequestException;
 import Team2.BuildWeek3.exception.NotFoundException;
 import Team2.BuildWeek3.payloads.NewClientiDTO;
 import Team2.BuildWeek3.repositories.ClientiDAO;
-import Team2.BuildWeek3.repositories.IndirizzoDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,14 +19,14 @@ public class ClientiService {
     @Autowired
     ClientiDAO clientiDAO;
     @Autowired
-    IndirizzoDAO indirizzoDAO;
+    IndirizziService indirizziService;
 
 
     public Cliente save(NewClientiDTO body) throws BadRequestException {
         this.clientiDAO.findByEmail(body.email()).ifPresent(cliente -> {
             throw new BadRequestException("L'email è già registrata");
         });
-        Cliente newCliente = new Cliente(body.ragioneSociale(), body.partitaIva(), body.email(), body.dataInserimento(), body.dataUltimoContatto(), body.pec(), body.telefono(), body.emailContatto(), body.nomeContatto(), body.cognomeContatto(), body.telefonoContatto(), body.logoAziendale(), body.tipoCliente(), body.sedeOperativa(), body.sedeLegale());
+        Cliente newCliente = new Cliente(body.ragioneSociale(), body.partitaIva(), body.email(), body.dataInserimento(), body.dataUltimoContatto(), body.pec(), body.telefono(), body.emailContatto(), body.nomeContatto(), body.cognomeContatto(), body.telefonoContatto(), body.logoAziendale(), body.getRoleEnum(), indirizziService.findById(body.sedeOperativa()), indirizziService.findById(body.sedeLegale()));
         return clientiDAO.save(newCliente);
     }
 
@@ -42,21 +41,21 @@ public class ClientiService {
 
     public Cliente findByIdAndUpdateSedeLegale(Long clienteId, Long indirizzoId) {
         Cliente found = this.findById(clienteId);
-        Indirizzo indirizzo = this.indirizzoDAO.findById(indirizzoId).orElseThrow(() -> new NotFoundException(indirizzoId));
+        Indirizzo indirizzo = this.indirizziService.findById(indirizzoId).orElseThrow(() -> new NotFoundException(indirizzoId));
         found.setSedeLegale(indirizzo);
         indirizzo.setSedeLegale(found);
         this.clientiDAO.save(found);
-        this.indirizzoDAO.save(indirizzo);
+        this.indirizziService.save(indirizzo);
         return found;
     }
 
     public Cliente findByIdAndUpdateSedeOperativa(Long clienteId, Long indirizzoId) {
         Cliente found = this.findById(clienteId);
-        Indirizzo indirizzo = this.indirizzoDAO.findById(indirizzoId).orElseThrow(() -> new NotFoundException(indirizzoId));
+        Indirizzo indirizzo = this.indirizziService.findById(indirizzoId).orElseThrow(() -> new NotFoundException(indirizzoId));
         found.setSedeOperativa(indirizzo);
         indirizzo.setSedeOperativa(found);
         this.clientiDAO.save(found);
-        this.indirizzoDAO.save(indirizzo);
+        this.indirizziService.save(indirizzo);
         return found;
     }
 
