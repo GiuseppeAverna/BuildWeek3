@@ -5,6 +5,7 @@ import Team2.BuildWeek3.entities.Indirizzo;
 import Team2.BuildWeek3.exception.BadRequestException;
 import Team2.BuildWeek3.exception.NotFoundException;
 import Team2.BuildWeek3.payloads.NewClientiDTO;
+import Team2.BuildWeek3.payloads.NewIndirizziDTO;
 import Team2.BuildWeek3.repositories.ClientiDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -45,7 +46,7 @@ public class ClientiService {
         found.setSedeLegale(indirizzo);
         indirizzo.setSedeLegale(found);
         this.clientiDAO.save(found);
-        this.indirizziService.save(indirizzo);
+        this.indirizziService.save(new NewIndirizziDTO(indirizzo.getVia(), indirizzo.getCivico(), indirizzo.getLocalità(), indirizzo.getComune().getId(), indirizzo.getCap()));
         return found;
     }
 
@@ -55,7 +56,7 @@ public class ClientiService {
         found.setSedeOperativa(indirizzo);
         indirizzo.setSedeOperativa(found);
         this.clientiDAO.save(found);
-        this.indirizziService.save(indirizzo);
+        this.indirizziService.save(new NewIndirizziDTO(indirizzo.getVia(), indirizzo.getCivico(), indirizzo.getLocalità(), indirizzo.getComune().getId(), indirizzo.getCap()));
         return found;
     }
 
