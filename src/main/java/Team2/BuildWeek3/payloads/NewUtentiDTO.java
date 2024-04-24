@@ -1,5 +1,6 @@
 package Team2.BuildWeek3.payloads;
 
+import Team2.BuildWeek3.entities.enums.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
@@ -22,11 +23,13 @@ public record NewUtentiDTO(
         String password,
         @NotEmpty(message = "L'avatar è obbligatorio")
         @Size(min = 4, message = "L'avatar deve avere come minimo 8 caratteri")
-                String avatar,
+        String avatar,
         @NotEmpty(message = "Il ruolo è obbligatorio")
         @Size(min = 2, message = "Il ruolo deve avere minimo 2 caratteri")
         String ruolo) {
 
-
+    public Role getRoleEnum() {
+        return Role.valueOf(ruolo.toUpperCase());
+    }
 
 }
