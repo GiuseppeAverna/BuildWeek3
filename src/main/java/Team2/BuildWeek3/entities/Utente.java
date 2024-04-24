@@ -34,4 +34,6 @@ public class Utente {
         this.avatar = avatar;
     }
 
+
 }
+
