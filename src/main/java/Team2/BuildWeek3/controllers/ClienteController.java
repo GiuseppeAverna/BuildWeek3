@@ -25,7 +25,7 @@ public class ClienteController {
 
     @GetMapping("/{clienteId}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public NewClientiDTO getClienteById(Long clienteId){
+    public Cliente getClienteById(Long clienteId){
         return clienteService.findById(clienteId);
     }
 
@@ -38,14 +38,14 @@ public class ClienteController {
 
     @PatchMapping("/sedeLegale/{clienteId}/{indirizzoId}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public NewClientiDTO updateIndirizzoSedeLegale(Long clienteId,Long indirizzoId){
-        return findByIdAndUpdateSedeLegale(clienteId,indirizzoId);
+    public Cliente updateIndirizzoSedeLegale(Long clienteId,Long indirizzoId){
+        return clienteService.findByIdAndUpdateSedeLegale(clienteId,indirizzoId);
     }
 
     @PatchMapping("/sedeOperativa/{clienteId}/{indirizzoId}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public Cliente updateIndirizzoSedeOperativa(Long clienteId,Long indirizzoId){
-        return findByIdAndUpdateSedeOperativa(clienteId,indirizzoId);
+        return clienteService.findByIdAndUpdateSedeOperativa(clienteId,indirizzoId);
     }
 
 
