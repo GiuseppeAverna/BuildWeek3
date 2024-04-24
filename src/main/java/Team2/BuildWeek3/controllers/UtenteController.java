@@ -8,6 +8,8 @@ import Team2.BuildWeek3.services.UtentiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -24,28 +26,39 @@ public class UtenteController {
         return this.utentiService.getUsers(page, size, sortBy);
     }
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public NewUtentiRespDTO saveUser(@RequestBody @Validated NewUtentiDTO body, BindingResult validation){
 
-        if(validation.hasErrors()) {
-            throw new BadRequestException(validation.getAllErrors());
-        }
-
-        return new NewUtentiRespDTO(this.utentiService.save(body).getId());
+    @GetMapping("/me")
+    public Utente getProfile(@AuthenticationPrincipal Utente currentAuthenticatedUser){
+        return currentAuthenticatedUser;
     }
+
+    @PutMapping("/me")
+    public Utente updateProfile(@AuthenticationPrincipal Utente currentAuthenticatedUser, @RequestBody Utente updatedUser){
+        return this.utentiService.findByIdAndUpdate(currentAuthenticatedUser.getId(), updatedUser);
+    }
+
+    @DeleteMapping("/me")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteProfile(@AuthenticationPrincipal Utente currentAuthenticatedUser){
+        this.utentiService.findByIdAndDelete(currentAuthenticatedUser.getId());
+    }
+
 
     @GetMapping("/{userId}")
-    public Utente findById(@PathVariable long userId){
-        return this.utentiService.findById(userId);
+    public Utente findById(@PathVariable long Id){
+        return this.utentiService.findById(Id);
     }
+
     @PutMapping("/{userId}")
-    public Utente findByIdAndUpdate(@PathVariable long userId, @RequestBody Utente body){
-        return this.utentiService.findByIdAndUpdate(userId, body);
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public Utente findByIdAndUpdate(@PathVariable long Id, @RequestBody Utente body){
+        return this.utentiService.findByIdAndUpdate(Id, body);
     }
+
     @DeleteMapping("/{userId}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void findByIdAndDelete(@PathVariable long userId){
-        this.utentiService.findByIdAndDelete(userId);
+    public void findByIdAndDelete(@PathVariable long Id){
+        this.utentiService.findByIdAndDelete(Id);
     }
 }
