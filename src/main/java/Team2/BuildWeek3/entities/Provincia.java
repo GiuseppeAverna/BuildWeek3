@@ -1,5 +1,6 @@
 package Team2.BuildWeek3.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,7 @@ public class Provincia {
     private long id;
      private String nome;
     @OneToMany(mappedBy = "provincia", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Comune> comuni;
 
 
