@@ -16,7 +16,7 @@ public class Fattura {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    LocalDate dataFattura;
+    String dataFattura;
     private long numeroFattura;
     private double importoFattura;
     private String statoFattura;
@@ -25,7 +25,7 @@ public class Fattura {
     private Cliente cliente;
 
 
-    public Fattura(LocalDate dataFattura, long numeroFattura, double importoFattura, String statoFattura, Cliente idCliente) {
+    public Fattura(String dataFattura, long numeroFattura, double importoFattura, String statoFattura, Cliente idCliente) {
         this.dataFattura = dataFattura;
         this.numeroFattura = numeroFattura;
         this.importoFattura = importoFattura;
