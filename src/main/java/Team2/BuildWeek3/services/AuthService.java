@@ -5,6 +5,7 @@ import Team2.BuildWeek3.exception.UnauthorizedException;
 import Team2.BuildWeek3.payloads.UserLoginDTO;
 import Team2.BuildWeek3.security.JWTools;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,11 +14,13 @@ public class AuthService {
     private UtentiService utentiService;
     @Autowired
     private JWTools jwtTools;
+    @Autowired
+    private PasswordEncoder bcrypt;
 
-    public String authenticateUserAndGenerateToken(UserLoginDTO payload){
+    public String authenticateUserAndGenerateToken(UserLoginDTO payload) {
 
         Utente utente = this.utentiService.findByEmail(payload.email());
-        if(utente.getPassword().equals(payload.password())) {
+        if (bcrypt.matches(payload.password(), utente.getPassword())) {
             return jwtTools.createToken(utente);
         } else {
 
