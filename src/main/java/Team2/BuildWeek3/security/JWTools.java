@@ -4,7 +4,7 @@ import Team2.BuildWeek3.entities.Utente;
 import Team2.BuildWeek3.exception.UnauthorizedException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-import lombok.Value;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -29,10 +29,7 @@ public class JWTools {
                 .subject(
                         String.valueOf(
                                 utente.getId()))
-                .signWith(
-                        Keys.hmacShaKeyFor(
-                                "cLWiN3LNt600YKWLgFO3AyWYOdjtAPNbGvgLIX5WPv5FfHvdAx"
-                                        .getBytes()))
+                .signWith(Keys.hmacShaKeyFor(secret.getBytes()))
                 .compact();
     }
 
