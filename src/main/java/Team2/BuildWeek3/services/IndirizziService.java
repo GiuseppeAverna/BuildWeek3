@@ -3,6 +3,7 @@ package Team2.BuildWeek3.services;
 
 import Team2.BuildWeek3.entities.Comune;
 import Team2.BuildWeek3.entities.Indirizzo;
+import Team2.BuildWeek3.exception.BadRequestException;
 import Team2.BuildWeek3.exception.NotFoundException;
 import Team2.BuildWeek3.payloads.NewIndirizziDTO;
 import Team2.BuildWeek3.repositories.ComuneDAO;
@@ -29,8 +30,10 @@ public class IndirizziService {
     public Indirizzo save(NewIndirizziDTO body) {
         Indirizzo indirizzo = new Indirizzo(body.via(), body.civico(), body.localita(), body.cap(), comuneDAO.findById( body.comuneid()).orElseThrow(()-> new NotFoundException("comuneId non trovato")));
         Comune comune = comuneDAO.findById(body.comuneid()).orElseThrow(() -> new NotFoundException("comuneId non trovato"));
+        if(comune.getIndirizzo() != null) {
+            throw new BadRequestException("Il comune " + comune.getNome() + " ha già un indirizzo");
+        }else {comune.setIndirizzo(indirizzo);}
         indirizzoDAO.save(indirizzo);
-        comune.setIndirizzo(indirizzo);
         comuneDAO.save(comune);
         return indirizzo;
     }

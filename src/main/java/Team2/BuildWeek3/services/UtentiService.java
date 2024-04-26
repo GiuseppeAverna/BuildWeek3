@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
@@ -17,6 +18,8 @@ import org.springframework.stereotype.Service;
 public class UtentiService {
     @Autowired
     private UtentiDAO utentiDAO;
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     public Page<Utente> getUsers(int page, int size, String sortBy) {
         if (size > 100) size = 100;
@@ -30,7 +33,7 @@ public class UtentiService {
                     throw new BadRequestException("L'email " + body.email() + " è già in uso!");
                 }
         );
-        Utente newUtente = new Utente(body.username(), body.nome(), body.cognome(), body.email(), body.password(), body.getRoleEnum(),
+        Utente newUtente = new Utente(body.username(), body.nome(), body.cognome(), body.email(),passwordEncoder.encode(body.password()), body.getRoleEnum(),
                 "https://ui-avatars.com/api/?name=" + body.nome() + "+" + body.cognome());
 
         return utentiDAO.save(newUtente);

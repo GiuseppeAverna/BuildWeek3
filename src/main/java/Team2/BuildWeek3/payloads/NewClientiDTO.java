@@ -20,9 +20,9 @@ public record NewClientiDTO(
         @NotEmpty(message = "L'email è obbligatoria")
         String email,
         @NotNull(message = "La data di inserimento è obbligatoria")
-        LocalDate dataInserimento,
+        String dataInserimento,
         @NotNull(message = "La data ultimo contatto è obbligatoria")
-        LocalDate dataUltimoContatto,
+        String dataUltimoContatto,
         @Email
         String pec,
         @NotEmpty(message = "Un numero di telefono è obbligatorio")
@@ -30,7 +30,6 @@ public record NewClientiDTO(
         String telefono,
         @Email
         String emailContatto,
-
         @NotEmpty(message = "Il nome del contatto è obbligatorio")
         String nomeContatto,
         @NotEmpty(message = "Il cognome del contatto è obbligatorio")
@@ -41,9 +40,9 @@ public record NewClientiDTO(
         String logoAziendale,
         @NotEmpty(message = "il tipo di cliente è obbligatorio")
         String tipoCliente,
-        @NotEmpty(message = "L'indirizzo della sede operativa è obbligatorio")
+
         long sedeOperativa,
-        @NotEmpty(message = "L'indirizzo della sede legale è obbligatorio")
+
         long sedeLegale) {
     public TipoCliente getRoleEnum() {
         String tipoClienteUpperCase = tipoCliente.toUpperCase();

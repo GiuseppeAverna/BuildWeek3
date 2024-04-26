@@ -14,6 +14,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 @Service
 public class ClientiService {
 
@@ -24,10 +27,11 @@ public class ClientiService {
 
 
     public Cliente save(NewClientiDTO body) throws BadRequestException {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         this.clientiDAO.findByEmail(body.email()).ifPresent(cliente -> {
             throw new BadRequestException("L'email è già registrata");
         });
-        Cliente newCliente = new Cliente(body.ragioneSociale(), body.partitaIva(), body.email(), body.dataInserimento(), body.dataUltimoContatto(), body.pec(), body.telefono(), body.emailContatto(), body.nomeContatto(), body.cognomeContatto(), body.telefonoContatto(), body.logoAziendale(), body.getRoleEnum(), indirizziService.findById(body.sedeOperativa()), indirizziService.findById(body.sedeLegale()));
+        Cliente newCliente = new Cliente(body.ragioneSociale(), body.partitaIva(), body.email(), LocalDate.parse(body.dataInserimento(),formatter) , LocalDate.parse(body.dataUltimoContatto(),formatter) , body.pec(), body.telefono(), body.emailContatto(), body.nomeContatto(), body.cognomeContatto(), body.telefonoContatto(), body.logoAziendale(), body.getRoleEnum(), indirizziService.findById(body.sedeOperativa()), indirizziService.findById(body.sedeLegale()));
         return clientiDAO.save(newCliente);
     }
 
