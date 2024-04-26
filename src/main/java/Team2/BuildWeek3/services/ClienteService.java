@@ -36,9 +36,9 @@ public class ClienteService {
                 .collect(Collectors.toList());
     }
 
-    public List<Cliente> filtraPerNome(String parteNome) {
+    public List<Cliente> filtraPerNomeContatto(String parteNome) {
         return clienti.stream()
-                .filter(cliente -> cliente.getRagioneSociale().toLowerCase().contains(parteNome.toLowerCase()))
+                .filter(cliente -> cliente.getNomeContatto().toLowerCase().contains(parteNome.toLowerCase()))
                 .collect(Collectors.toList());
     }
 }
