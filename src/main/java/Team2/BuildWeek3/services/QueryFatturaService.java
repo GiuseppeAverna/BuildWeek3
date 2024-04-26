@@ -6,10 +6,10 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class FattureService {
+public class QueryFatturaService {
     private List<Fattura> fatture;
 
-    public FattureService(List<Fattura> fatture) {
+    public QueryFatturaService(List<Fattura> fatture) {
         this.fatture = fatture;
     }
 

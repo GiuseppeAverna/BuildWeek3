@@ -8,10 +8,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-public class ClienteService {
+public class QueryClienteService {
     private List<Cliente> clienti;
 
-    public ClienteService(List<Cliente> clienti) {
+    public QueryClienteService(List<Cliente> clienti) {
         this.clienti = clienti;
     }
 
