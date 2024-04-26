@@ -2,6 +2,7 @@ package Team2.BuildWeek3.entities;
 
 
 import Team2.BuildWeek3.entities.enums.TipoCliente;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -40,11 +41,14 @@ public class Cliente {
     private TipoCliente tipoCliente;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "sedeOperativa_id")
+    @JsonIgnore
     private Indirizzo sedeOperativa;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "sedeLegale_id")
+    @JsonIgnore
     private Indirizzo sedeLegale;
     @OneToMany(mappedBy = "cliente")
+
     private List<Fattura> fatture;
 
 
@@ -87,9 +91,7 @@ public class Cliente {
     public double getFatturato(int anno) {
         double totaleFatturato = 0.0;
         for (Fattura fattura : fatture) {
-            Calendar calendar = new GregorianCalendar();
-            calendar.setTime(fattura.getDataFattura());
-            if (calendar.get(Calendar.YEAR) == anno) {
+            if (fattura.getDataFattura().getYear() == anno) {
                 totaleFatturato += fattura.getImportoFattura();
             }
         }

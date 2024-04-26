@@ -13,6 +13,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 @Service
 public class FatturaService {
     @Autowired
@@ -21,7 +24,8 @@ public class FatturaService {
     private ClientiService clientiService;
 
     public FatturaRespDTO save (FatturaDTO body){
-        fatturaDAO.save(new Fattura(body.dataFattura(),body.numeroFattura(), body.importoFattura() ,body.statoFattura(),clientiService.findById( body.clienteId())));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        fatturaDAO.save(new Fattura(LocalDate.parse( body.dataFattura(),formatter),body.numeroFattura(), body.importoFattura() ,body.statoFattura(),clientiService.findById( body.clienteId())));
 
         return new FatturaRespDTO(body.dataFattura(), body.numeroFattura(), body.importoFattura(), body.statoFattura(), clientiService.findById(body.clienteId()));
     }
@@ -39,11 +43,12 @@ public class FatturaService {
 
     public FatturaRespDTO findAndUpdate(long numeroFattura, StatoFatturaDTO body) {
         Fattura fattura = fatturaDAO.findByNumeroFattura(numeroFattura);
+
         if (fattura == null) {
             throw new NotFoundException("Fattura non trovata");
         }else{
             fattura.setStatoFattura(body.statoFattura());
-            return new FatturaRespDTO(fattura.getDataFattura(), fattura.getNumeroFattura(), fattura.getImportoFattura(), fattura.getStatoFattura(), fattura.getCliente());
+            return new FatturaRespDTO( fattura.getDataFattura().toString(), fattura.getNumeroFattura(), fattura.getImportoFattura(), fattura.getStatoFattura(), fattura.getCliente());
         }
     }
 
