@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 
@@ -76,5 +78,21 @@ public class Cliente {
         this.tipoCliente = tipoCliente;
         this.sedeLegale = sedeLegale;
         this.sedeOperativa = sedeOperativa;
+    }
+
+    public void aggiungiFattura(Fattura fattura) {
+        fatture.add(fattura);
+    }
+
+    public double getFatturato(int anno) {
+        double totaleFatturato = 0.0;
+        for (Fattura fattura : fatture) {
+            Calendar calendar = new GregorianCalendar();
+            calendar.setTime(fattura.getDataFattura());
+            if (calendar.get(Calendar.YEAR) == anno) {
+                totaleFatturato += fattura.getImportoFattura();
+            }
+        }
+        return totaleFatturato;
     }
 }
