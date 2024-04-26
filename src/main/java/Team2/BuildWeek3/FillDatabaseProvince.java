@@ -42,6 +42,7 @@ public class FillDatabaseProvince {
             e.printStackTrace();
         }
     }
+
     public void fillDatabaseComuni() {
         String filePath = new File("src/main/resources/comuni-italiani.csv").getAbsolutePath();
         boolean isFirstLine = true;
@@ -55,13 +56,20 @@ public class FillDatabaseProvince {
                 String[] columns = line.split(";");
                 String nome = columns[2]; // Assumendo che la provincia sia nella quarta colonna
                 String provincia = columns[3]; // Assumendo che la provincia sia nella quarta colonna
-                Comune comune=new Comune(nome,provinciaDAO.findByNomeLikeIgnoreCase(provincia));
-                comuneDAO.save(comune);
 
+                if (comuneDAO.findByNomeAndProvinciaNome(nome, provincia) == null) {
+                    // Se il comune non esiste già, crea un nuovo oggetto Comune e salvalo nel database
+                    Comune comune = new Comune(nome, provinciaDAO.findFirstByNomeLikeIgnoreCase(provincia));
+                    comuneDAO.save(comune);
+                }
+//                Comune comune = new Comune(nome, provinciaDAO.findFirstByNomeLikeIgnoreCase(provincia));
+//
+//                comuneDAO.save(comune);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
 
+
+    }
 }

@@ -9,12 +9,14 @@ import org.springframework.stereotype.Service;
 public class ProvinciaProva {
     @Autowired
     ProvinciaDAO provinciaDAO;
+
     public void saveProvincia(Provincia provincia) {
         provinciaDAO.save(provincia);
         System.out.println(provincia);
     }
+
     public Provincia cercaProvinciaPerNome(String nome) {
 
-        return provinciaDAO.findByNomeLikeIgnoreCase(nome);
+        return provinciaDAO.findFirstByNomeLikeIgnoreCase(nome);
     }
 }
