@@ -4,9 +4,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,9 +21,12 @@ public class ExceptionsHandler {
     }
 
     @ExceptionHandler(UnauthorizedException.class)
-    public ResponseEntity<Object> handleUnauthorizedException(UnauthorizedException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.UNAUTHORIZED);
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ErrorsResponseDTO handleUnauthorized(UnauthorizedException ex) {
+        return new ErrorsResponseDTO(ex.getMessage(), LocalDateTime.now());
     }
+
+
 
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<Object> handleBadRequestException(BadRequestException ex) {

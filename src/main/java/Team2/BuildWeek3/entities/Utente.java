@@ -1,6 +1,7 @@
 package Team2.BuildWeek3.entities;
 
 import Team2.BuildWeek3.entities.enums.Role;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,6 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
+@JsonIgnoreProperties({"password", "role", "authorities", "accountNonExpired", "credentialsNonExpired", "accountNonLocked", "enabled"})
 public class Utente implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,6 +28,7 @@ public class Utente implements UserDetails {
     private String cognome;
     private String email;
     private String password;
+    @Enumerated(EnumType.STRING)
     private Role ruolo;
     private String avatar;
 

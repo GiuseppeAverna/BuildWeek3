@@ -15,7 +15,7 @@ public class JWTools {
     @Value("${jwt.secret}")
     private String secret;
 
-    public String createToken(Utente utente){
+    public String createToken(Utente utente) {
         return Jwts.builder()
                 .issuedAt(
                         new Date(
@@ -29,11 +29,14 @@ public class JWTools {
                 .subject(
                         String.valueOf(
                                 utente.getId()))
-                .signWith(Keys.hmacShaKeyFor(secret.getBytes()))
+                .signWith(
+                        Keys.hmacShaKeyFor(
+                                secret
+                                        .getBytes()))
                 .compact();
     }
 
-    public void verifyToken(String token){
+    public void verifyToken(String token) {
         try {
             Jwts.parser()
                     .verifyWith(Keys.hmacShaKeyFor(secret.getBytes()))
@@ -44,7 +47,7 @@ public class JWTools {
         }
     }
 
-    public String extractIdFromToken(String token){
+    public String extractIdFromToken(String token) {
         return Jwts.parser()
                 .verifyWith(Keys.hmacShaKeyFor(secret.getBytes()))
                 .build().parseSignedClaims(token).getPayload().getSubject();

@@ -3,6 +3,7 @@ package Team2.BuildWeek3.services;
 
 import Team2.BuildWeek3.entities.Comune;
 import Team2.BuildWeek3.entities.Indirizzo;
+import Team2.BuildWeek3.exception.BadRequestException;
 import Team2.BuildWeek3.exception.NotFoundException;
 import Team2.BuildWeek3.payloads.NewIndirizziDTO;
 import Team2.BuildWeek3.repositories.ComuneDAO;
@@ -27,15 +28,17 @@ public class IndirizziService {
 
 
     public Indirizzo save(NewIndirizziDTO body) {
-        Indirizzo indirizzo = new Indirizzo(body.via(), body.civico(), body.localita(), body.cap(), comuneDAO.findById( body.comuneid()).orElseThrow(()-> new NotFoundException("comuneId non trovato")));
+        Indirizzo indirizzo = new Indirizzo(body.via(), body.civico(), body.localita(), body.cap(), comuneDAO.findById(body.comuneid()).orElseThrow(() -> new NotFoundException("comuneId non trovato")));
         Comune comune = comuneDAO.findById(body.comuneid()).orElseThrow(() -> new NotFoundException("comuneId non trovato"));
+        if(comune.getIndirizzo() != null) {
+            throw new BadRequestException("Il comune " + comune.getNome() + " ha già un indirizzo");
+        }else {comune.setIndirizzo(indirizzo);}
         indirizzoDAO.save(indirizzo);
-        comune.setIndirizzo(indirizzo);
         comuneDAO.save(comune);
         return indirizzo;
     }
 
-    public Page<Indirizzo> getIndirizzo(int page, int size, String sort){
+    public Page<Indirizzo> getIndirizzo(int page, int size, String sort) {
         if (size > 100) size = 100;
         Pageable pageable = PageRequest.of(page, size, Sort.by(sort));
         return indirizzoDAO.findAll(pageable);
@@ -47,13 +50,12 @@ public class IndirizziService {
     }
 
 
-
     public Indirizzo findById(long id) throws NotFoundException {
         Optional<Indirizzo> indirizzo = indirizzoDAO.findById((id));
         if (indirizzo.isEmpty()) {
-            throw new NotFoundException(id);
+            throw new NotFoundException("Indirizzo con id: " + id + " non è stato trovato");
         }
         return indirizzo.get();
     }
-    }
+}
 
