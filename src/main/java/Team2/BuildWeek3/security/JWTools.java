@@ -50,6 +50,6 @@ public class JWTools {
     public String extractIdFromToken(String token) {
         return Jwts.parser()
                 .verifyWith(Keys.hmacShaKeyFor(secret.getBytes()))
-                .build().parseSignedClaims(token).getPayload().getSubject(); // Il subject è l'id dell'utente
+                .build().parseSignedClaims(token).getPayload().getSubject();
     }
 }
