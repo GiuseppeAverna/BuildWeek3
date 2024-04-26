@@ -7,6 +7,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 @SpringBootApplication
 public class Application {
     public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
         ConfigurableApplicationContext context = SpringApplication.run(Application.class, args);
         FillDatabaseProvince fillDatabaseProvince = context.getBean(FillDatabaseProvince.class);
         fillDatabaseProvince.fillDatabase();
