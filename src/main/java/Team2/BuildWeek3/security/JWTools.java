@@ -4,7 +4,7 @@ import Team2.BuildWeek3.entities.Utente;
 import Team2.BuildWeek3.exception.UnauthorizedException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-import lombok.Value;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -15,7 +15,7 @@ public class JWTools {
     @Value("${jwt.secret}")
     private String secret;
 
-    public String createToken(Utente utente){
+    public String createToken(Utente utente) {
         return Jwts.builder()
                 .issuedAt(
                         new Date(
@@ -31,12 +31,12 @@ public class JWTools {
                                 utente.getId()))
                 .signWith(
                         Keys.hmacShaKeyFor(
-                                "cLWiN3LNt600YKWLgFO3AyWYOdjtAPNbGvgLIX5WPv5FfHvdAx"
+                                secret
                                         .getBytes()))
                 .compact();
     }
 
-    public void verifyToken(String token){
+    public void verifyToken(String token) {
         try {
             Jwts.parser()
                     .verifyWith(Keys.hmacShaKeyFor(secret.getBytes()))
@@ -47,7 +47,7 @@ public class JWTools {
         }
     }
 
-    public String extractIdFromToken(String token){
+    public String extractIdFromToken(String token) {
         return Jwts.parser()
                 .verifyWith(Keys.hmacShaKeyFor(secret.getBytes()))
                 .build().parseSignedClaims(token).getPayload().getSubject(); // Il subject è l'id dell'utente

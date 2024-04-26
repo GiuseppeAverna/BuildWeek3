@@ -53,7 +53,7 @@ public class ClienteController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAuthority('Admin')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
     public NewClientiRespDTO saveClienti(@RequestBody @Validated NewClientiDTO body, BindingResult validation) {
         if (validation.hasErrors()) {

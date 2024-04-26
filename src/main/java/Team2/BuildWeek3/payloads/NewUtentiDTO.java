@@ -21,9 +21,9 @@ public record NewUtentiDTO(
         @NotEmpty(message = "La password è obbligatoria")
         @Size(min = 4, message = "La password deve avere come minimo 8 caratteri")
         String password,
-        @NotEmpty(message = "L'avatar è obbligatorio")
-        @Size(min = 4, message = "L'avatar deve avere come minimo 8 caratteri")
-        String avatar,
+//        @NotEmpty(message = "L'avatar è obbligatorio")
+//        @Size(min = 4, message = "L'avatar deve avere come minimo 8 caratteri")
+//        String avatar,
         @NotEmpty(message = "Il ruolo è obbligatorio")
         @Size(min = 2, message = "Il ruolo deve avere minimo 2 caratteri")
         String ruolo) {

@@ -32,7 +32,8 @@ public class JWTFilter extends OncePerRequestFilter {
 
         String authHeader = request.getHeader("Authorization");
 
-        if(authHeader == null || !authHeader.startsWith("Bearer ")) throw new UnauthorizedException("Per favore inserisci il token nell'Authorization Header");
+        if (authHeader == null || !authHeader.startsWith("Bearer "))
+            throw new UnauthorizedException("Per favore inserisci il token nell'Authorization Header");
 
         String accessToken = authHeader.substring(7);
 
@@ -45,8 +46,9 @@ public class JWTFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
 
     }
+
     @Override
-    protected boolean shouldNotFilter(HttpServletRequest request){
+    protected boolean shouldNotFilter(HttpServletRequest request) {
         return new AntPathMatcher().match("/auth/**", request.getServletPath());
     }
 }

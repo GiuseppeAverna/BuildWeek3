@@ -41,9 +41,9 @@ public record NewClientiDTO(
         String logoAziendale,
         @NotEmpty(message = "il tipo di cliente è obbligatorio")
         String tipoCliente,
-        @NotEmpty(message = "L'indirizzo della sede operativa è obbligatorio")
+        @NotNull(message = "L'indirizzo della sede operativa è obbligatorio")
         long sedeOperativa,
-        @NotEmpty(message = "L'indirizzo della sede legale è obbligatorio")
+        @NotNull(message = "L'indirizzo della sede legale è obbligatorio")
         long sedeLegale) {
     public TipoCliente getRoleEnum() {
         String tipoClienteUpperCase = tipoCliente.toUpperCase();
